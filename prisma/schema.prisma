@@ -10,11 +10,69 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model Bot {
+    id String @id @default(uuid()) @unique
+    username String
+    avatar String
 
-    @@index([name])
+    clientId String @unique
+    publicKey String @unique
+    token String @unique
+    
+    commands Command[]
+    variables Variable[]
+    owner User @relation(fields: [ownerUserId], references: [id])
+    ownerUserId String
+
+    @@unique([clientId, ownerUserId])
+}
+
+model Command {
+    id String @id @default(uuid()) @unique
+    name String
+    description String
+    bot Bot @relation(fields: [botClientId, botOwnerId], references: [clientId, ownerUserId])
+    botClientId String
+    botOwnerId String
+    nodes Json[]
+    edges Json[]
+
+    @@unique([botClientId, name])
+}
+
+model User {
+  id String @id
+  sessions Session[]
+  username String
+  avatar String
+  lastWebLogin DateTime
+  bots Bot[]
+  admin Boolean @default(false)
+}
+
+model Session {
+  id        String   @id
+  userId    String
+  expiresAt DateTime
+  accessToken String
+
+  user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+}
+
+model Variable {
+  id String @id @default(uuid()) @unique
+  type VariableType
+  bot Bot @relation(fields: [botClientId], references: [clientId])
+  botClientId String
+  guildSpecific Boolean
+  guildId String?
+  value Json
+}
+
+enum VariableType {
+  STRING
+  NUMBER
+  CHANNEL
+  USER
+  ARRAY
 }
