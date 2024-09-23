@@ -59,7 +59,6 @@ export const GET = async (request: NextRequest) => {
 			}
 		})
 
-
 		const session = await lucia.createSession(dbUser.id, {
 			accessToken: tokens.accessToken
 		})

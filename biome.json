@@ -6,7 +6,8 @@
 			".next",
 			"generated",
 			"./packages/**/package.json",
-			"./packages/**/tsconfig.json"
+			"./packages/**/tsconfig.json",
+			"ui"
 		],
 		"ignoreUnknown": true
 	},
