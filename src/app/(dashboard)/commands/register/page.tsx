@@ -53,7 +53,7 @@ export default function RegisterCommands() {
 				/>
 				<FormField
 					control={form.control}
-					name="token"
+					name="botToken"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Bot Token</FormLabel>

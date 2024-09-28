@@ -4,6 +4,7 @@
 		"ignore": [
 			"dist",
 			".next",
+			".source",
 			"generated",
 			"./packages/**/package.json",
 			"./packages/**/tsconfig.json",

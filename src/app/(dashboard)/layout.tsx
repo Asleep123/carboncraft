@@ -1,7 +1,7 @@
 import "~/styles/globals.css"
 
 import type { Metadata } from "next"
-import { JetBrains_Mono } from "next/font/google"
+import { Manrope } from "next/font/google"
 import { cookies } from "next/headers"
 import type * as React from "react"
 import Navbar from "~/components/Navbar"
@@ -11,9 +11,9 @@ import { AuthProvider } from "~/server/AuthContext"
 import { validateRequest } from "~/server/auth"
 import { TRPCReactProvider } from "~/trpc/react"
 
-const jetbrains = JetBrains_Mono({
+const manrope = Manrope({
 	subsets: ["latin"],
-	weight: "600"
+	weight: "500"
 })
 
 export const metadata: Metadata = {
@@ -28,7 +28,7 @@ export default async function RootLayout({
 	const session = await validateRequest()
 
 	return (
-		<html lang="en" className={`${jetbrains.className}`}>
+		<html lang="en" className={`${manrope.className}`}>
 			<body>
 				<AuthProvider value={session}>
 					<TRPCReactProvider cookies={cookies().toString()}>

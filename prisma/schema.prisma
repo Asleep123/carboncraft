@@ -13,7 +13,8 @@ datasource db {
 model Bot {
     id String @id @default(uuid()) @unique
     username String
-    avatar String
+    avatar String?
+    banner String?
 
     clientId String @unique
     publicKey String @unique
