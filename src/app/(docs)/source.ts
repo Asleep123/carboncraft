@@ -2,8 +2,8 @@ import type { InferMetaType, InferPageType } from "fumadocs-core/source"
 import { loader } from "fumadocs-core/source"
 import { createMDXSource } from "fumadocs-mdx"
 import { icons } from "lucide-react"
-import { docs, meta } from ".source"
 import { create } from "~/components/docs/icon"
+import { docs, meta } from ".source"
 
 export const source = loader({
 	baseUrl: "/docs",

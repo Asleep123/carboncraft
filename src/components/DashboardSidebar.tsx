@@ -1,13 +1,20 @@
-import Link from "next/link"
 import { Settings } from "lucide-react"
 import { UserPlus } from "lucide-react"
-
+import Link from "next/link"
 
 export default function DashboardSidebar({ botId }: { botId: string }) {
 	const links = {
 		general: [
-			{ text: "Manage Bot", href: `/dashboard/${botId}/manage`, icon: <Settings /> },
-			{ text: "Invite Bot", href: `/dashboard/${botId}/invite`, icon: <UserPlus /> }
+			{
+				text: "Manage Bot",
+				href: `/dashboard/${botId}/manage`,
+				icon: <Settings />
+			},
+			{
+				text: "Invite Bot",
+				href: `/dashboard/${botId}/invite`,
+				icon: <UserPlus />
+			}
 		]
 	}
 
@@ -17,7 +24,11 @@ export default function DashboardSidebar({ botId }: { botId: string }) {
 				<p className="text-sm px-6">General</p>
 				<div className="flex-1 space-y-2 px-6">
 					{links.general.map((object) => (
-						<Link href={object.href} key={object.text} className="flex items-center gap-4 rounded-md px-4 py-3 text-muted-foreground transition-colos hover:bg-accent hover:text-accent-foreground">
+						<Link
+							href={object.href}
+							key={object.text}
+							className="flex items-center gap-4 rounded-md px-4 py-3 text-muted-foreground transition-colos hover:bg-accent hover:text-accent-foreground"
+						>
 							{object.icon}
 							<span>{object.text}</span>
 						</Link>

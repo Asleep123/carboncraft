@@ -2,72 +2,72 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Bot {
-    id String @id @default(uuid()) @unique
-    username String
-    avatar String?
-    banner String?
+  id       String  @id @unique @default(uuid())
+  username String
+  avatar   String?
+  banner   String?
 
-    clientId String @unique
-    publicKey String @unique
-    token String @unique
-    
-    commands Command[]
-    variables Variable[]
-    owner User @relation(fields: [ownerUserId], references: [id])
-    ownerUserId String
+  clientId  String @unique
+  publicKey String @unique
+  token     String @unique
 
-    @@unique([clientId, ownerUserId])
+  commands    Command[]
+  variables   Variable[]
+  owner       User       @relation(fields: [ownerUserId], references: [id])
+  ownerUserId String
+
+  @@unique([clientId, ownerUserId])
 }
 
 model Command {
-    id String @id @default(uuid()) @unique
-    name String
-    description String
-    bot Bot @relation(fields: [botClientId, botOwnerId], references: [clientId, ownerUserId])
-    botClientId String
-    botOwnerId String
-    nodes Json[]
-    edges Json[]
+  id          String @id @unique @default(uuid())
+  name        String
+  description String
+  bot         Bot    @relation(fields: [botClientId, botOwnerId], references: [clientId, ownerUserId])
+  botClientId String
+  botOwnerId  String
+  nodes       Json[]
+  edges       Json[]
 
-    @@unique([botClientId, name])
+  @@unique([botClientId, name])
 }
 
 model User {
-  id String @id
-  sessions Session[]
-  username String
-  avatar String
+  id           String    @id
+  sessions     Session[]
+  username     String
+  avatar       String
   lastWebLogin DateTime
-  bots Bot[]
-  admin Boolean @default(false)
+  bots         Bot[]
+  admin        Boolean   @default(false)
 }
 
 model Session {
-  id        String   @id
-  userId    String
-  expiresAt DateTime
+  id          String   @id
+  userId      String
+  expiresAt   DateTime
   accessToken String
 
-  user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+  user User @relation(references: [id], fields: [userId], onDelete: Cascade)
 }
 
 model Variable {
-  id String @id @default(uuid()) @unique
-  type VariableType
-  bot Bot @relation(fields: [botClientId], references: [clientId])
-  botClientId String
+  id            String       @id @unique @default(uuid())
+  type          VariableType
+  bot           Bot          @relation(fields: [botClientId], references: [clientId])
+  botClientId   String
   guildSpecific Boolean
-  guildId String?
-  value Json
+  guildId       String?
+  value         Json
 }
 
 enum VariableType {

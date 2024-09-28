@@ -3,7 +3,7 @@ import { z } from "zod"
 export const createCommandSchema = z.object({
 	botId: z.string(),
 	name: z.string(),
-	description: z.string(),
+	description: z.string()
 })
 
 export const createBotSchema = z.object({
@@ -27,26 +27,34 @@ export const getBotSchema = z.object({
 export const editBotSchema = z.intersection(
 	createBotSchema.partial(),
 	z.object({
-		botId: z.string(),
+		botId: z.string()
 	})
 )
 
 export const editBotProfileSchema = z.object({
 	botId: z.string(),
 	username: z.string(),
-	avatarData: z.object({
-		data: z.string(),
-		mimeType: z.string()
-	}).optional(),
-	bannerData: z.object({
-		data: z.string(),
-		mimeType: z.string()
-	}).optional(),
-	avatarForm: z.custom<File>().refine((file) => file.size <= 8 * 1024 * 1024, {
-		message: "File size too large. Max: 8MB"
-	}).refine((file) => ["image/jpeg", "image/png"].includes(file.type), {
-		message: "Unsupported file type. Supported: PNG, JPEG"
-	}).optional()
+	avatarData: z
+		.object({
+			data: z.string(),
+			mimeType: z.string()
+		})
+		.optional(),
+	bannerData: z
+		.object({
+			data: z.string(),
+			mimeType: z.string()
+		})
+		.optional(),
+	avatarForm: z
+		.custom<File>()
+		.refine((file) => file.size <= 8 * 1024 * 1024, {
+			message: "File size too large. Max: 8MB"
+		})
+		.refine((file) => ["image/jpeg", "image/png"].includes(file.type), {
+			message: "Unsupported file type. Supported: PNG, JPEG"
+		})
+		.optional()
 })
 
 export const deleteAllCommandsSchema = z.object({

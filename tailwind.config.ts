@@ -1,17 +1,17 @@
+import { createPreset } from "fumadocs-ui/tailwind-plugin"
 import type { Config } from "tailwindcss"
 import { fontFamily } from "tailwindcss/defaultTheme"
-import { createPreset } from "fumadocs-ui/tailwind-plugin"
 
 export default {
 	darkMode: ["class"],
 	presets: [createPreset()],
 	content: [
 		"./src/**/*.tsx",
-		'./node_modules/fumadocs-ui/dist/**/*.js',
-		'./src/components/**/*.{ts,tsx}',
-		'./src/app/**/*.{ts,tsx}',
-		'./src/docs/content/**/*.mdx',
-		'./src/docs/mdx-components.tsx',
+		"./node_modules/fumadocs-ui/dist/**/*.js",
+		"./src/components/**/*.{ts,tsx}",
+		"./src/app/**/*.{ts,tsx}",
+		"./src/docs/content/**/*.mdx",
+		"./src/docs/mdx-components.tsx"
 	],
 	theme: {
 		extend: {

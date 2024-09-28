@@ -2,7 +2,9 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { RefreshCcw } from "lucide-react"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
+import * as React from "react"
 import { useForm } from "react-hook-form"
 import type { z } from "zod"
 import {
@@ -29,13 +31,11 @@ import {
 	FormLabel
 } from "~/components/ui/form"
 import { Input } from "~/components/ui/input"
+import { ScrollArea } from "~/components/ui/scroll-area"
 import { useToast } from "~/components/ui/use-toast"
-import { editBotSchema, editBotProfileSchema } from "~/server/schemas"
+import { editBotProfileSchema, editBotSchema } from "~/server/schemas"
 import { api } from "~/trpc/react"
 import type { api as apiServer } from "~/trpc/server"
-import Link from "next/link"
-import { ScrollArea } from "~/components/ui/scroll-area"
-import * as React from "react"
 
 export default function ManageContent({
 	bot
@@ -44,14 +44,14 @@ export default function ManageContent({
 	const registerCommandsMutation = api.commands.register.useMutation()
 	const deleteAllCommandsMutation = api.commands.deleteAll.useMutation()
 	const editBotProfileMutation = api.bots.editProfile.useMutation()
-	
+
 	const [file, setFile] = React.useState<File | null>(null)
 
 	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.files?.[0]) {
-		  setFile(event.target.files[0]);
+			setFile(event.target.files[0])
 		}
-	  };
+	}
 
 	const securityForm = useForm<z.infer<typeof editBotSchema>>({
 		resolver: zodResolver(editBotSchema),
@@ -89,8 +89,10 @@ export default function ManageContent({
 		router.refresh()
 	}
 
-	async function profileOnSubmit(values: z.infer<typeof editBotProfileSchema>) {
-		if (!file) return;
+	async function profileOnSubmit(
+		values: z.infer<typeof editBotProfileSchema>
+	) {
+		if (!file) return
 		const reader = new FileReader()
 		reader.onloadend = async () => {
 			const b64 = reader.result as string
@@ -160,13 +162,15 @@ export default function ManageContent({
 								Sync
 							</Button>
 							<p className="text-sm text-muted-foreground">
-								Sync your commands with Discord. This only needs to
-								be done after you update a commands metadata (name,
-								description, options)
+								Sync your commands with Discord. This only needs
+								to be done after you update a commands metadata
+								(name, description, options)
 							</p>
 						</div>
 						<div>
-							<p className="text-sm font-medium">Delete Commands</p>
+							<p className="text-sm font-medium">
+								Delete Commands
+							</p>
 							<Button
 								className="my-2 ml-2"
 								variant="destructive"
@@ -195,14 +199,19 @@ export default function ManageContent({
 							</Button>
 							<p className="text-sm text-muted-foreground">
 								This will de-register all of your commands on
-								Discord. Useful when
-								switching from another provider, and you need to
-								start fresh.
+								Discord. Useful when switching from another
+								provider, and you need to start fresh.
 							</p>
 						</div>
 						<p className="text-sm text-muted-foreground">
-							No start/stop buttons? That's because we use HTTP Interactions. Read more{" "}
-							<Link href="/about/http-interactions" className="font-bold">here</Link>
+							No start/stop buttons? That's because we use HTTP
+							Interactions. Read more{" "}
+							<Link
+								href="/about/http-interactions"
+								className="font-bold"
+							>
+								here
+							</Link>
 							.
 						</p>
 					</CardContent>
@@ -215,9 +224,13 @@ export default function ManageContent({
 						</CardDescription>
 					</CardHeader>
 					<CardContent>
-							<Form {...securityForm}>
-								<form onSubmit={securityForm.handleSubmit(securityOnSubmit)}>
-									<div className="flex flex-col space-y-4">
+						<Form {...securityForm}>
+							<form
+								onSubmit={securityForm.handleSubmit(
+									securityOnSubmit
+								)}
+							>
+								<div className="flex flex-col space-y-4">
 									<FormField
 										control={securityForm.control}
 										name="token"
@@ -232,9 +245,9 @@ export default function ManageContent({
 													/>
 												</FormControl>
 												<FormDescription>
-													This is your bot's key to interact
-													with the Discord API. Don't share
-													it!
+													This is your bot's key to
+													interact with the Discord
+													API. Don't share it!
 												</FormDescription>
 											</FormItem>
 										)}
@@ -244,7 +257,9 @@ export default function ManageContent({
 										name="publicKey"
 										render={({ field }) => (
 											<FormItem>
-												<FormLabel>Public Key</FormLabel>
+												<FormLabel>
+													Public Key
+												</FormLabel>
 												<FormControl>
 													<Input
 														{...field}
@@ -253,13 +268,14 @@ export default function ManageContent({
 												</FormControl>
 												<FormDescription>
 													This is how we verify HTTP
-													Interactions are actually coming
-													from Discord, and not an imposter.
+													Interactions are actually
+													coming from Discord, and not
+													an imposter.
 												</FormDescription>
 											</FormItem>
 										)}
 									/>
-									</div>
+								</div>
 								<Button type="submit" className="mt-4">
 									Save
 								</Button>
@@ -270,11 +286,17 @@ export default function ManageContent({
 				<Card className="my-8">
 					<CardHeader>
 						<CardTitle>Bot</CardTitle>
-						<CardDescription>Customize your bot's username, avatar, banner</CardDescription>
+						<CardDescription>
+							Customize your bot's username, avatar, banner
+						</CardDescription>
 					</CardHeader>
 					<CardContent>
 						<Form {...profileForm}>
-							<form onSubmit={profileForm.handleSubmit(profileOnSubmit)}>
+							<form
+								onSubmit={profileForm.handleSubmit(
+									profileOnSubmit
+								)}
+							>
 								<div className="flex flex-col space-y-4">
 									<FormField
 										control={profileForm.control}
@@ -302,7 +324,9 @@ export default function ManageContent({
 														{...field}
 														type="file"
 														accept="image/jpeg, image/png"
-														onChange={handleFileChange}
+														onChange={
+															handleFileChange
+														}
 														value={undefined}
 													/>
 												</FormControl>
@@ -310,7 +334,9 @@ export default function ManageContent({
 										)}
 									/>
 								</div>
-							<Button type="submit" className="mt-4">Save</Button>
+								<Button type="submit" className="mt-4">
+									Save
+								</Button>
 							</form>
 						</Form>
 					</CardContent>

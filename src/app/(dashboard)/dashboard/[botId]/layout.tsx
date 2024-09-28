@@ -10,9 +10,7 @@ export default function RootLayout({
 	return (
 		<main className="flex min-h-screen">
 			<DashboardSidebar botId={params.botId} />
-			<main className="flex-1 overflow-auto">
-				{children}
-			</main>
+			<main className="flex-1 overflow-auto">{children}</main>
 		</main>
 	)
 }
