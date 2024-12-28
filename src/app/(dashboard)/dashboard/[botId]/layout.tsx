@@ -8,9 +8,11 @@ export default function RootLayout({
 	params
 }: { children: React.ReactNode; params: { botId: string } }) {
 	return (
-		<main className="flex min-h-screen">
+		<main className="flex h-[calc(100vh-4rem)] overflow-hidden">
 			<DashboardSidebar botId={params.botId} />
-			<main className="flex-1 overflow-auto">{children}</main>
+			<main className="flex-1 flex flex-col">
+				{children}
+			</main>
 		</main>
 	)
 }

@@ -1,4 +1,5 @@
 import type { Session } from "@prisma/client"
+import { ModeToggle } from "./ThemeToggle"
 
 export default function Navbar({ session }: { session: Session | null }) {
 	return (
@@ -11,6 +12,7 @@ export default function Navbar({ session }: { session: Session | null }) {
 				<p>About</p>
 				<p>Docs</p>
 				{session ? <p>Logged in</p> : <p>Unauthenticated</p>}
+				<ModeToggle />
 			</div>
 		</nav>
 	)

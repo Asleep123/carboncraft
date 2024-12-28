@@ -4,7 +4,6 @@ import type { Metadata } from "next"
 import { Manrope } from "next/font/google"
 import { cookies } from "next/headers"
 import type * as React from "react"
-import Navbar from "~/components/Navbar"
 import { ThemeProvider } from "~/components/ThemeProvider"
 import { Toaster } from "~/components/ui/toaster"
 import { AuthProvider } from "~/server/AuthContext"
@@ -36,9 +35,9 @@ export default async function RootLayout({
 							attribute="class"
 							defaultTheme="dark"
 							enableSystem
+							disableTransitionOnChange
 						>
 							<main>
-								<Navbar session={session.session} />
 								{children}
 							</main>
 							<Toaster />

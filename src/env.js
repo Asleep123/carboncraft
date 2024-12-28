@@ -11,6 +11,7 @@ export const env = createEnv({
 		DISCORD_CLIENT_ID: z.string(),
 		DISCORD_CLIENT_SECRET: z.string(),
 		DISCORD_REDIRECT_URI: z.string(),
+		ENCRYPTION_KEY: z.string().length(32),
 		NODE_ENV: z
 			.enum(["development", "test", "production"])
 			.default("development")
@@ -34,6 +35,7 @@ export const env = createEnv({
 		DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
 		DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
 		DISCORD_REDIRECT_URI: process.env.DISCORD_REDIRECT_URI,
+		ENCRYPTION_KEY: process.env.ENCRYPTION_KEY,
 		NODE_ENV: process.env.NODE_ENV
 		// NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
 	},

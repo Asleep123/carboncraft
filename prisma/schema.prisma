@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["omitApi"]
 }
 
 datasource db {
@@ -25,20 +26,20 @@ model Bot {
   owner       User       @relation(fields: [ownerUserId], references: [id])
   ownerUserId String
 
-  @@unique([clientId, ownerUserId])
+  @@unique([id, ownerUserId])
 }
 
 model Command {
   id          String @id @unique @default(uuid())
   name        String
   description String
-  bot         Bot    @relation(fields: [botClientId, botOwnerId], references: [clientId, ownerUserId])
-  botClientId String
+  bot         Bot    @relation(fields: [botId, botOwnerId], references: [id, ownerUserId])
+  botId String
   botOwnerId  String
   nodes       Json[]
   edges       Json[]
 
-  @@unique([botClientId, name])
+  @@unique([botId, name])
 }
 
 model User {

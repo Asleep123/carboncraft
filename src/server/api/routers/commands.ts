@@ -3,11 +3,13 @@ import { db } from "~/server/db"
 import {
 	createCommandSchema,
 	deleteAllCommandsSchema,
-	registerCommandsSchema
+	registerCommandsSchema,
+	saveCommandSchema
 } from "~/server/schemas"
 import { discordConfig } from "../discordConfig"
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc"
+import { decrypt } from "~/lib/encryption"
 
 export const commandRouter = createTRPCRouter({
 	// Create a command
@@ -33,28 +35,33 @@ export const commandRouter = createTRPCRouter({
 	register: protectedProcedure
 		.input(registerCommandsSchema)
 		.mutation(async ({ input, ctx }) => {
-			const commands = await db.command.findMany({
+			const bot = await db.bot.findFirst({
 				where: {
-					botClientId: input.clientId,
-					bot: {
-						ownerUserId: ctx.user.id
-					}
+					id: input.botId,
+					ownerUserId: ctx.user.id
 				},
 				select: {
-					name: true,
-					description: true
+					commands: {
+						select: {
+							name: true,
+							description: true
+						}
+					},
+					token: true,
+					clientId: true
 				}
 			})
+			if (!bot) return
 
 			const request = await fetch(
-				`${discordConfig.baseUrl}/${discordConfig.version}/applications/${input.clientId}/commands`,
+				`${discordConfig.baseUrl}/${discordConfig.version}/applications/${bot.clientId}/commands`,
 				{
 					method: "PUT",
 					headers: {
 						"Content-Type": "application/json",
-						Authorization: `Bot ${input.botToken}`
+						Authorization: `Bot ${decrypt(bot.token)}`
 					},
-					body: JSON.stringify(commands)
+					body: JSON.stringify(bot.commands)
 				}
 			)
 
@@ -90,5 +97,9 @@ export const commandRouter = createTRPCRouter({
 			if (request.status === 401)
 				return new TRPCError({ code: "UNAUTHORIZED" })
 			return
-		})
+		}),
+	// Save a command's contents
+	save: protectedProcedure
+	.input(saveCommandSchema)
+	.mutation(async ({ input, ctx }) => {})
 })

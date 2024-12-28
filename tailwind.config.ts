@@ -11,7 +11,8 @@ export default {
 		"./src/components/**/*.{ts,tsx}",
 		"./src/app/**/*.{ts,tsx}",
 		"./src/docs/content/**/*.mdx",
-		"./src/docs/mdx-components.tsx"
+		"./src/docs/mdx-components.tsx",
+		"./src/nodes/*.{ts,tsx}"
 	],
 	theme: {
 		extend: {
